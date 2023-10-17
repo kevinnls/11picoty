@@ -10,6 +10,8 @@ PACKAGE_SCRIPTS = { "scripts": { "dev": "eleventy --serve", "build": "eleventy" 
 POD_MOUNTS = \
 	-w /app \
 	-v $(PWD):/app:z \
+	-v pnpm-global:/usr/local:Z \
+	-v pnpm-store:/usr/local/share/pnpm:Z \
 	-v $(PROJ)_modules:/app/node_modules:z
 
 POD_OPTIONS_TEMPLATE = \
@@ -28,7 +30,7 @@ build: run
 
 run: CONTAINER_TAG = $(firstword $(SCRIPT))
 run:
-	podman run $(POD_OPTIONS_TEMPLATE) npm run $(SCRIPT)
+	podman run $(POD_OPTIONS_TEMPLATE) pnpm run $(SCRIPT)
 
 
 sh: CONTAINER_TAG = sh
